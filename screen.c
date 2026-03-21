@@ -27,18 +27,18 @@ void draw_point(int x, int y, char c) {
     printf("\x1b[%i;%iH%c", y + 1, x + 1, c);
 }
 
-int cartesian_to_screen_x(int x, int zoom, int offset) {
+int cartesian_to_screen_x(int x, float zoom, int offset) {
     return zoom * x + window_data.cols / 2 + offset;
 }
 
-int cartesian_to_screen_y(int y, int zoom, int offset) {
+int cartesian_to_screen_y(int y, float zoom, int offset) {
     return window_data.rows / 2 - zoom * y + offset;
 }
 
-int screen_to_cartesian_x(int x, int zoom, int offset) {
+int screen_to_cartesian_x(int x, float zoom, int offset) {
     return (x - offset - window_data.cols / 2) / zoom;
 }
 
-int screen_to_cartesian_y(int y, int zoom, int offset) {
+int screen_to_cartesian_y(int y, float zoom, int offset) {
     return (window_data.rows / 2 - y + offset) / zoom;
 }
