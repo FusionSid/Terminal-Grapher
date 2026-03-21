@@ -16,6 +16,7 @@ void deinit() {
 }
 
 int f(int x) { return x * x + 1; }
+// int f(int x) { return 10 * sin(x); }
 
 int main() {
     init();
@@ -23,8 +24,8 @@ int main() {
     int x_offset = 0;
     int y_offset = 5;
 
-    int x_zoom = 10;
-    int y_zoom = 1;
+    float x_zoom = 10;
+    float y_zoom = 1;
 
     // draw out x and y axis
     window_size_t w;
@@ -37,7 +38,10 @@ int main() {
     for (int row = 0; row < w.rows; row++) draw_point(y_axis_col, row, '|');
 
     // plot out f(x)
-    for (int x = -10; x < 10; x++) {
+    int left_bound = screen_to_cartesian_x(0, x_zoom, x_offset);
+    int right_bound = screen_to_cartesian_x(w.cols, x_zoom, x_offset);
+
+    for (int x = left_bound; x < right_bound; x++) {
         draw_point(cartesian_to_screen_x(x, x_zoom, x_offset),
                    cartesian_to_screen_y(f(x), y_zoom, y_offset), '*');
     }
