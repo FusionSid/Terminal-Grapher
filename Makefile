@@ -1,4 +1,4 @@
-INCDIR = inc
+INCDIR = include
 SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
