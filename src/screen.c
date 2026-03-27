@@ -1,6 +1,7 @@
 
 #include "screen.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/ioctl.h>
@@ -45,4 +46,13 @@ float screen_to_cartesian_x(float x, float step, float offset) {
 float screen_to_cartesian_y(float y, float step, float offset) {
     float zoom = 1 / step;
     return (window_data.rows / 2 - y + offset) / zoom;
+}
+
+cam_pos_t screen_to_cam_pos(float left, float right, int window_size) {
+    float total_distance = fabs(right - left);
+
+    cam_pos_t cam_pos = {.step = window_size / total_distance,
+                         .offset = total_distance / 2};
+
+    return cam_pos;
 }
