@@ -1,19 +1,27 @@
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <termios.h>
 #include <unistd.h>
 
 #include "codes.h"
 #include "screen.h"
 
 void init();
+void enable_raw_mode();
+
 void deinit();
+void disable_raw_mode();
+
 void plot_function(window_size_t w, float x_step, float y_step, float x_offset,
                    float y_offset, float (*f)(float), int delay);
 void plot_axes(window_size_t w, float x_step, float y_step, float x_offset,
                float y_offset);
 
-float f1(float x) { return x * x + 1; }
-float f2(float x) { return 10 * sin(x - 2) * cos(2 * x); }
+// this is the func (slang for function btw) imma plot
+float f(float x) { return 10 * sin(x - 2) * cos(2 * x); }
+
+struct termios orig_termios;
 
 int main() {
     init();
@@ -74,4 +82,21 @@ void plot_function(window_size_t w, float x_step, float y_step, float x_offset,
                    cartesian_to_screen_y(f(x), y_step, y_offset), '*');
         usleep(delay);
     }
+}
+
+void disable_raw_mode() { tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios); }
+
+void enable_raw_mode() {
+    tcgetattr(STDIN_FILENO, &orig_termios);
+    atexit(disable_raw_mode);
+
+    struct termios raw = orig_termios;
+
+    // echo is stops the terminal from printing when you type smth
+    // canonical allows you to input without needing to press enter
+    raw.c_lflag &= ~(ECHO | ICANON);  // turn off echo and canonical
+    raw.c_cc[VMIN] = 0;               // min bytes to read
+    raw.c_cc[VTIME] = 1;              // timeout in 1/10 of a sec
+
+    tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
