@@ -54,19 +54,27 @@ int main() {
             y_offset -= 0.5;
         else if (c == 'd')  // right
             x_offset += 0.5;
+
         else if (c == '-')  // zoom in x
-            x_step = 1 / (1 / x_step - 1);
-        else if (c == '=')  // zoom in x
-            x_step = 1 / (1 / x_step + 1);
+            x_step *= 1.1;
+        else if (c == '=')  // zoom out x
+            x_step *= 0.9;
         else if (c == 'o')  // zoom out y
-            y_step = 1 / (1 / y_step + 1);
+            y_step *= 1.1;
         else if (c == 'i')  // zoom in y
-            y_step = 1 / (1 / y_step - 1);
+            y_step *= 0.9;
+
+        else if (c == 'r') {  // reset
+            x_offset = 0;
+            y_offset = 0;
+            x_step = 0.05;
+            y_step = 1.3;
+        }
 
         else
             continue;
 
-        // if we got here, we must have pressed w,a,s or d therefore replot f(x)
+        // if we got here, we must have pressed smth that requires a replot of f(x)
         printf(ERASE_SCREEN);
         plot_axes(w, x_step, y_step, x_offset, y_offset);
         plot_function(w, x_step, y_step, x_offset, y_offset, f, 0);
