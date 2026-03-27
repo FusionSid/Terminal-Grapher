@@ -25,31 +25,56 @@ struct termios orig_termios;
 
 int main() {
     init();
-
-    // can easily calculate x or y step as domain/w.cols or range/w.rows
-    int x_offset = 0;
-    int y_offset = 13;
-    float x_step = 0.06;
-    float y_step = 0.2;
+    enable_raw_mode();
 
     window_size_t w;
     get_window_size(&w);
 
-    plot_axes(w, x_step, y_step, x_offset, y_offset);
-    plot_function(w, x_step, y_step, x_offset, y_offset, f1, 0);
-    sleep(1);
-    printf(ERASE_SCREEN);
-
-    y_offset = 0;
-    x_step = 0.05;
-    y_step = 1.3;
+    float x_offset = 0;
+    float y_offset = 0;
+    float x_step = 0.05;
+    float y_step = 1.3;
 
     plot_axes(w, x_step, y_step, x_offset, y_offset);
-    plot_function(w, x_step, y_step, x_offset, y_offset, f2, 5000);
-    sleep(5);
-    printf(ERASE_SCREEN);
+    plot_function(w, x_step, y_step, x_offset, y_offset, f, 5000);
 
+    char c;
+    while (1) {
+        int n = read(STDIN_FILENO, &c, 1);
+        if (n != 1) continue;
+
+        if (c == 'q')
+            break;
+
+        else if (c == 'w')  // up
+            y_offset += 0.5;
+        else if (c == 'a')  // left
+            x_offset -= 0.5;
+        else if (c == 's')  // down
+            y_offset -= 0.5;
+        else if (c == 'd')  // right
+            x_offset += 0.5;
+        else if (c == '-')  // zoom in x
+            x_step = 1 / (1 / x_step - 1);
+        else if (c == '=')  // zoom in x
+            x_step = 1 / (1 / x_step + 1);
+        else if (c == 'o')  // zoom out y
+            y_step = 1 / (1 / y_step + 1);
+        else if (c == 'i')  // zoom in y
+            y_step = 1 / (1 / y_step - 1);
+
+        else
+            continue;
+
+        // if we got here, we must have pressed w,a,s or d therefore replot f(x)
+        printf(ERASE_SCREEN);
+        plot_axes(w, x_step, y_step, x_offset, y_offset);
+        plot_function(w, x_step, y_step, x_offset, y_offset, f, 0);
+    }
+
+    printf(ERASE_SCREEN);
     deinit();
+
     return 0;
 }
 
