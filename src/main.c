@@ -20,6 +20,8 @@ void plot_axes(window_size_t w, float x_step, float y_step, float x_offset,
 
 // this is the func (slang for function btw) imma plot
 float f(float x) { return 10 * sin(x - 2) * cos(2 * x); }
+// float f(float x) { return sin(x); }
+// float f(float x) { return x*x; }
 
 struct termios orig_termios;
 
@@ -33,7 +35,7 @@ int main() {
     float x_offset = 0;
     float y_offset = 0;
     float x_step = 0.05;
-    float y_step = 1.3;
+    float y_step = 0.5;
 
     plot_axes(w, x_step, y_step, x_offset, y_offset);
     plot_function(w, x_step, y_step, x_offset, y_offset, f, 5000);
@@ -68,13 +70,13 @@ int main() {
             x_offset = 0;
             y_offset = 0;
             x_step = 0.05;
-            y_step = 1.3;
+            y_step = 0.5;
         }
 
         else
             continue;
 
-        // if we got here, we must have pressed smth that requires a replot of f(x)
+        // if we here, we must have pressed smth that requires a replot of f(x)
         printf(ERASE_SCREEN);
         plot_axes(w, x_step, y_step, x_offset, y_offset);
         plot_function(w, x_step, y_step, x_offset, y_offset, f, 0);
