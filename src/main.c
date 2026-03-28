@@ -44,11 +44,11 @@ int main() {
         else if (c == 'w')  // up
             y_offset += 0.5;
         else if (c == 'a')  // left
-            x_offset -= 0.5;
+            x_offset += 0.5;
         else if (c == 's')  // down
             y_offset -= 0.5;
         else if (c == 'd')  // right
-            x_offset += 0.5;
+            x_offset -= 0.5;
 
         else if (c == '-')  // zoom in x
             x_step *= 1.1;
