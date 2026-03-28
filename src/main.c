@@ -9,6 +9,11 @@
 #include "screen.h"
 #include "term.h"
 
+#define DEFAULT_X_OFFSET 0
+#define DEFAULT_Y_OFFSET 0
+#define DEFAULT_X_STEP 0.05
+#define DEFAULT_Y_STEP 0.5
+
 // this is the func (slang for function btw) imma plot
 float f(float x) { return 10 * sin(x - 2) * cos(2 * x); }
 // float f(float x) { return sin(x); }
@@ -22,14 +27,13 @@ int main() {
     get_window_size(&w);
 
     render_state_t render_state = {
-        .x_offset = 0,
-        .y_offset = 0,
-        .x_step = 0.05,
-        .y_step = 0.5,
+        .x_offset = DEFAULT_X_OFFSET,
+        .y_offset = DEFAULT_Y_OFFSET,
+        .x_step = DEFAULT_X_STEP,
+        .y_step = DEFAULT_Y_STEP,
     };
-
-    plot_axes(w, &render_state);
-    plot_function(w, &render_state, f, 5000);
+    render(w, &render_state, f,
+           5000);  // initaly use non zero delay to animate drawing the function
 
     char c;
     while (1) {
@@ -68,13 +72,9 @@ int main() {
             continue;
 
         // if we here, we must have pressed smth that requires a replot of f(x)
-        printf(ERASE_SCREEN);
-        plot_axes(w, &render_state);
-        plot_function(w, &render_state, f, 0);
+        render(w, &render_state, f, 0);
     }
 
-    printf(ERASE_SCREEN);
     deinit();
-
     return 0;
 }

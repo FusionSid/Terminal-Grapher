@@ -1,7 +1,10 @@
 
 #include "render.h"
 
+#include <stdio.h>
 #include <unistd.h>
+
+#include "codes.h"
 
 void plot_axes(window_size_t w, render_state_t* state) {
     int x_axis_row = cartesian_to_screen_y(0, state->y_step, state->y_offset);
@@ -21,6 +24,13 @@ void plot_function(window_size_t w, render_state_t* state, float (*f)(float),
         draw_point(cartesian_to_screen_x(x, state->x_step, state->x_offset),
                    cartesian_to_screen_y(f(x), state->y_step, state->y_offset),
                    '*');
-        usleep(delay);
+        if (delay) usleep(delay);
     }
+}
+
+void render(window_size_t w, render_state_t* state, plotting_function_t f,
+            int delay) {
+    printf(ERASE_SCREEN);
+    plot_axes(w, state);
+    plot_function(w, state, f, delay);
 }
