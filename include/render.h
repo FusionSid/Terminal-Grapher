@@ -8,11 +8,11 @@
 #define DEFAULT_Y_STEP 0.5
 
 typedef struct {
-    float x_offset, y_offset;
-    float x_step, y_step;
+    double x_offset, y_offset;
+    double x_step, y_step;
 } render_state_t;
 
-typedef float (*plotting_function_t)(float);
+typedef double (*plotting_function_t)(double);
 
 void render(window_size_t w, render_state_t* state, plotting_function_t f,
             int delay);

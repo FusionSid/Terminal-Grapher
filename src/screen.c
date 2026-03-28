@@ -28,28 +28,28 @@ void draw_point(int x, int y, char c) {
     printf("\x1b[%i;%iH%c", y + 1, x + 1, c);
 }
 
-int cartesian_to_screen_x(float x, float step, float offset) {
-    float zoom = 1 / step;
+int cartesian_to_screen_x(double x, double step, double offset) {
+    double zoom = 1 / step;
     return zoom * x + window_data.cols / 2 + offset;
 }
 
-int cartesian_to_screen_y(float y, float step, float offset) {
-    float zoom = 1 / step;
+int cartesian_to_screen_y(double y, double step, double offset) {
+    double zoom = 1 / step;
     return window_data.rows / 2 - zoom * y + offset;
 }
 
-float screen_to_cartesian_x(float x, float step, float offset) {
-    float zoom = 1 / step;
+double screen_to_cartesian_x(double x, double step, double offset) {
+    double zoom = 1 / step;
     return (x - offset - window_data.cols / 2) / zoom;
 }
 
-float screen_to_cartesian_y(float y, float step, float offset) {
-    float zoom = 1 / step;
+double screen_to_cartesian_y(double y, double step, double offset) {
+    double zoom = 1 / step;
     return (window_data.rows / 2 - y + offset) / zoom;
 }
 
-cam_pos_t screen_to_cam_pos(float left, float right, int window_size) {
-    float total_distance = fabs(right - left);
+cam_pos_t screen_to_cam_pos(double left, double right, int window_size) {
+    double total_distance = fabs(right - left);
 
     cam_pos_t cam_pos = {.step = window_size / total_distance,
                          .offset = total_distance / 2};

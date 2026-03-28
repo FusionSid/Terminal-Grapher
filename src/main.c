@@ -11,9 +11,9 @@
 #include "term.h"
 
 // this is the func (slang for function btw) imma plot
-float f(float x) { return 10 * sin(x - 2) * cos(2 * x); }
-// float f(float x) { return sin(x); }
-// float f(float x) { return x*x; }
+double f(double x) { return 10 * sin(x - 2) * cos(2 * x); }
+// double f(double x) { return sin(x); }
+// double f(double x) { return x*x; }
 
 int main() {
     init();
