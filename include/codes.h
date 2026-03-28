@@ -1,3 +1,5 @@
+#pragma once
+
 #define ENABLE_ALT_BUFFER "\x1b[?1049h"
 #define DISABLE_ALT_BUFFER "\x1b[?1049l"
 #define HIDE_CURSOR "\x1b[?25l"
