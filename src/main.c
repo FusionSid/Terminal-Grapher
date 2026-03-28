@@ -4,18 +4,43 @@
 #include <termios.h>
 #include <unistd.h>
 
+#include "ast.h"
 #include "codes.h"
 #include "input.h"
 #include "render.h"
 #include "screen.h"
 #include "term.h"
 
-// this is the func (slang for function btw) imma plot
-double f(double x) { return 10 * sin(x - 2) * cos(2 * x); }
-// double f(double x) { return sin(x); }
-// double f(double x) { return x*x; }
-
 int main() {
+    // equivelent to the function was plotting before:
+    // 10 * sin(x - 2) * cos(2 * x)
+    ast_node_t ast = {
+        .type = NODE_OPERATOR,
+        .op = OPERATOR_MULTIPLY,
+        .left = &(ast_node_t){.type = NODE_OPERATOR,
+                              .op = OPERATOR_MULTIPLY,
+                              .left = &(ast_node_t){.type = NODE_CONSTANT,
+                                                    .constant = 10.0},
+                              .right =
+                                  &(ast_node_t){
+                                      .type = NODE_FUNCTION,
+                                      .func = FUNCTION_SIN,
+                                      .left = &(ast_node_t){.type =
+                                                                NODE_OPERATOR,
+                                                            .op = OPERATOR_SUBTRACT,
+                                                            .left = &(ast_node_t){.type = NODE_VARIABLE},
+                                                            .right = &(ast_node_t){.type =
+                                                                                       NODE_CONSTANT,
+                                                                                   .constant = 2.0}}}},
+        .right = &(ast_node_t){
+            .type = NODE_FUNCTION,
+            .func = FUNCTION_COS,
+            .left = &(ast_node_t){
+                .type = NODE_OPERATOR,
+                .op = OPERATOR_MULTIPLY,
+                .left = &(ast_node_t){.type = NODE_CONSTANT, .constant = 2.0},
+                .right = &(ast_node_t){.type = NODE_VARIABLE}}}};
+
     init();
     enable_raw_mode();
 
@@ -28,7 +53,7 @@ int main() {
         .x_step = DEFAULT_X_STEP,
         .y_step = DEFAULT_Y_STEP,
     };
-    render(w, &render_state, f,
+    render(w, &render_state, &ast,
            5000);  // initaly use non zero delay to animate drawing the function
 
     char c;
@@ -38,7 +63,7 @@ int main() {
         if (c == 'q') break;
 
         if (apply_action(&render_state, c)) {
-            render(w, &render_state, f, 0);
+            render(w, &render_state, &ast, 0);
         }
     }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "screen.h"
+#include "ast.h"
 
 #define DEFAULT_X_OFFSET 0
 #define DEFAULT_Y_OFFSET 0
@@ -12,10 +13,8 @@ typedef struct {
     double x_step, y_step;
 } render_state_t;
 
-typedef double (*plotting_function_t)(double);
-
-void render(window_size_t w, render_state_t* state, plotting_function_t f,
+void render(window_size_t w, render_state_t* state, ast_node_t* node,
             int delay);
 void plot_axes(window_size_t w, render_state_t* state);
-void plot_function(window_size_t w, render_state_t* state,
-                   plotting_function_t f, int delay);
+void plot_function(window_size_t w, render_state_t* state, ast_node_t* node,
+                   int delay);
