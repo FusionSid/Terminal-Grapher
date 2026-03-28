@@ -39,6 +39,8 @@ struct ast_node_t {
     struct ast_node_t* right;
 };
 
+double ast_evaluate(ast_node_t* node, double x_value);
+
 static inline const char* node_to_string(ast_node_e node) {
     switch (node) {
 #define X(name) \
