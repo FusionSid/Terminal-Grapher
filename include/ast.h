@@ -1,29 +1,29 @@
 #pragma once
 
-#define NODE_LIST    \
-    X(NODE_CONSTANT) \
-    X(NODE_OPERATOR) \
-    X(NODE_FUNCTION) \
-    X(NODE_VARIABLE) \
-    X(NODE__COUNT)
+#define AST_NODE_LIST    \
+    X(AST_NODE_CONSTANT) \
+    X(AST_NODE_OPERATOR) \
+    X(AST_NODE_FUNCTION) \
+    X(AST_NODE_VARIABLE) \
+    X(AST_NODE__COUNT)
 
-#define OPERATOR_LIST    \
-    X(OPERATOR_ADD)      \
-    X(OPERATOR_SUBTRACT) \
-    X(OPERATOR_MULTIPLY) \
-    X(OPERATOR_DIVIDE)   \
-    X(OPERATOR_POWER)    \
-    X(OPERATOR__COUNT)
+#define AST_OPERATOR_LIST    \
+    X(AST_OPERATOR_ADD)      \
+    X(AST_OPERATOR_SUBTRACT) \
+    X(AST_OPERATOR_MULTIPLY) \
+    X(AST_OPERATOR_DIVIDE)   \
+    X(AST_OPERATOR_POWER)    \
+    X(AST_OPERATOR__COUNT)
 
-#define FUNCTION_LIST \
-    X(FUNCTION_SIN)   \
-    X(FUNCTION_COS)   \
-    X(FUNCTION__COUNT)
+#define AST_FUNCTION_LIST \
+    X(AST_FUNCTION_SIN)   \
+    X(AST_FUNCTION_COS)   \
+    X(AST_FUNCTION__COUNT)
 
 #define X(name) name,
-typedef enum { NODE_LIST } ast_node_e;
-typedef enum { OPERATOR_LIST } ast_operator_e;
-typedef enum { FUNCTION_LIST } ast_function_e;
+typedef enum { AST_NODE_LIST } ast_node_e;
+typedef enum { AST_OPERATOR_LIST } ast_operator_e;
+typedef enum { AST_FUNCTION_LIST } ast_function_e;
 #undef X
 
 typedef struct ast_node_t ast_node_t;
@@ -47,7 +47,7 @@ static inline const char* node_to_string(ast_node_e node) {
 #define X(name) \
     case name:  \
         return #name;
-        NODE_LIST
+        AST_NODE_LIST
 #undef X
         default:
             return "invalid node type";
@@ -59,7 +59,7 @@ static inline const char* operator_to_string(ast_operator_e op) {
 #define X(name) \
     case name:  \
         return #name;
-        OPERATOR_LIST
+        AST_OPERATOR_LIST
 #undef X
         default:
             return "invalid operator type";
@@ -71,7 +71,7 @@ static inline const char* function_to_string(ast_function_e func) {
 #define X(name) \
     case name:  \
         return #name;
-        FUNCTION_LIST
+        AST_FUNCTION_LIST
 #undef X
         default:
             return "invalid function type";

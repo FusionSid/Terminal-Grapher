@@ -10,7 +10,7 @@ double ast_evaluate(ast_node_t* node, double x_value) {
     }
 
     switch (node->type) {
-        case NODE_VARIABLE:
+        case AST_NODE_VARIABLE:
             if (node->varname == NULL) {
                 // probably ill do some sort of error later here
                 return x_value;
@@ -18,42 +18,41 @@ double ast_evaluate(ast_node_t* node, double x_value) {
 
             if (strcmp(node->varname, "pi") == 0) {
                 return M_PI;
-            }
-            if (strcmp(node->varname, "e") == 0) {
+            } else if (strcmp(node->varname, "e") == 0) {
                 return M_E;
             }
 
             return x_value;
 
-        case NODE_CONSTANT:
+        case AST_NODE_CONSTANT:
             return node->constant;
 
-        case NODE_OPERATOR:
+        case AST_NODE_OPERATOR:
             switch (node->op) {
-                case OPERATOR_ADD:
+                case AST_OPERATOR_ADD:
                     return ast_evaluate(node->left, x_value) +
                            ast_evaluate(node->right, x_value);
-                case OPERATOR_SUBTRACT:
+                case AST_OPERATOR_SUBTRACT:
                     return ast_evaluate(node->left, x_value) -
                            ast_evaluate(node->right, x_value);
-                case OPERATOR_MULTIPLY:
+                case AST_OPERATOR_MULTIPLY:
                     return ast_evaluate(node->left, x_value) *
                            ast_evaluate(node->right, x_value);
-                case OPERATOR_DIVIDE:
+                case AST_OPERATOR_DIVIDE:
                     return ast_evaluate(node->left, x_value) /
                            ast_evaluate(node->right, x_value);
-                case OPERATOR_POWER:
+                case AST_OPERATOR_POWER:
                     return pow(ast_evaluate(node->left, x_value),
                                ast_evaluate(node->right, x_value));
                 default:
                     return 0;
             }
 
-        case NODE_FUNCTION:
+        case AST_NODE_FUNCTION:
             switch (node->func) {
-                case FUNCTION_SIN:
+                case AST_FUNCTION_SIN:
                     return sin(ast_evaluate(node->left, x_value));
-                case FUNCTION_COS:
+                case AST_FUNCTION_COS:
                     return cos(ast_evaluate(node->left, x_value));
                 default:
                     return 0;

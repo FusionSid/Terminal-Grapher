@@ -14,56 +14,74 @@
 int main() {
     // ast bellow is: y= 10 * sin(x - 2) * cos(2 * x)
     // ast_node_t ast = {
-    //     .type = NODE_OPERATOR,
-    //     .op = OPERATOR_MULTIPLY,
-    //     .left = &(ast_node_t){.type = NODE_OPERATOR,
-    //                           .op = OPERATOR_MULTIPLY,
-    //                           .left = &(ast_node_t){.type = NODE_CONSTANT,
+    //     .type = AST_NODE_OPERATOR,
+    //     .op = AST_OPERATOR_MULTIPLY,
+    //     .left = &(ast_node_t){.type = AST_NODE_OPERATOR,
+    //                           .op = AST_OPERATOR_MULTIPLY,
+    //                           .left = &(ast_node_t){.type = AST_NODE_CONSTANT,
     //                                                 .constant = 10.0},
     //                           .right =
     //                               &(ast_node_t){
-    //                                   .type = NODE_FUNCTION,
-    //                                   .func = FUNCTION_SIN,
+    //                                   .type = AST_NODE_FUNCTION,
+    //                                   .func = AST_FUNCTION_SIN,
     //                                   .left = &(ast_node_t){.type =
-    //                                                             NODE_OPERATOR,
+    //                                                             AST_NODE_OPERATOR,
     //                                                         .op =
-    //                                                         OPERATOR_SUBTRACT,
+    //                                                         AST_OPERATOR_SUBTRACT,
     //                                                         .left =
     //                                                         &(ast_node_t){.type
-    //                                                         = NODE_VARIABLE},
+    //                                                         = AST_NODE_VARIABLE},
     //                                                         .right =
     //                                                         &(ast_node_t){.type
     //                                                         =
-    //                                                                                    NODE_CONSTANT,
+    //                                                                                    AST_NODE_CONSTANT,
     //                                                                                .constant = 2.0}}}},
     //     .right = &(ast_node_t){
-    //         .type = NODE_FUNCTION,
-    //         .func = FUNCTION_COS,
+    //         .type = AST_NODE_FUNCTION,
+    //         .func = AST_FUNCTION_COS,
     //         .left = &(ast_node_t){
-    //             .type = NODE_OPERATOR,
-    //             .op = OPERATOR_MULTIPLY,
-    //             .left = &(ast_node_t){.type = NODE_CONSTANT, .constant
-    //             = 2.0}, .right = &(ast_node_t){.type = NODE_VARIABLE}}}};
+    //             .type = AST_NODE_OPERATOR,
+    //             .op = AST_OPERATOR_MULTIPLY,
+    //             .left = &(ast_node_t){.type = AST_NODE_CONSTANT, .constant
+    //             = 2.0}, .right = &(ast_node_t){.type = AST_NODE_VARIABLE}}}};
 
     // y = 5
     // ast_node_t ast = {
-    //     .type=NODE_CONSTANT,
+    //     .type=AST_NODE_CONSTANT,
     //     .constant=5
     // };
 
     // y= x^5
     // ast_node_t ast =
-    // {.type = NODE_OPERATOR,
-    //  .op = OPERATOR_POWER,
-    //  .left = &(ast_node_t){.type = NODE_VARIABLE},
-    //  .right = &(ast_node_t){.type = NODE_CONSTANT, .constant = 5} };
+    // {.type = AST_NODE_OPERATOR,
+    //  .op = AST_OPERATOR_POWER,
+    //  .left = &(ast_node_t){.type = AST_NODE_VARIABLE},
+    //  .right = &(ast_node_t){.type = AST_NODE_CONSTANT, .constant = 5} };
 
     // y = e^x
+    // ast_node_t ast = {
+    //     .type = AST_NODE_OPERATOR,
+    //     .op = AST_OPERATOR_POWER,
+    //     .left = &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "e"},
+    //     .right = &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "x"},
+    // };
+
     ast_node_t ast = {
-        .type = NODE_OPERATOR,
-        .op = OPERATOR_POWER,
-        .left = &(ast_node_t){.type = NODE_VARIABLE, .varname = "e"},
-        .right = &(ast_node_t){.type = NODE_VARIABLE, .varname = "x"},
+        .type = AST_NODE_OPERATOR,
+        .op = AST_OPERATOR_ADD,
+        .left =
+            &(ast_node_t){
+                .type = AST_NODE_OPERATOR,
+                .op = AST_OPERATOR_POWER,
+                .left = &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "e"},
+                .right = &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "x"},
+            },
+        .right =
+            &(ast_node_t){
+                .type = AST_NODE_FUNCTION,
+                .func=AST_FUNCTION_SIN,
+                .left = &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "x"},
+            },
     };
 
     init();
