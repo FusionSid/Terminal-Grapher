@@ -11,11 +11,6 @@ double ast_evaluate(ast_node_t* node, double x_value) {
 
     switch (node->type) {
         case AST_NODE_VARIABLE:
-            if (node->varname == NULL) {
-                // probably ill do some sort of error later here
-                return x_value;
-            }
-
             if (strcmp(node->varname, "pi") == 0) {
                 return M_PI;
             } else if (strcmp(node->varname, "e") == 0) {

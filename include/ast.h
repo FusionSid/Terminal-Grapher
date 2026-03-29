@@ -1,5 +1,7 @@
 #pragma once
 
+#include "lexer.h"
+
 #define AST_NODE_LIST    \
     X(AST_NODE_CONSTANT) \
     X(AST_NODE_OPERATOR) \
@@ -31,7 +33,7 @@ typedef struct ast_node_t ast_node_t;
 struct ast_node_t {
     ast_node_e type;
     union {
-        char* varname;
+        char varname[MAX_IDENTIFIER_SIZE];
         double constant;
         ast_operator_e op;
         ast_function_e func;
