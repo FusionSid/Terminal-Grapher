@@ -13,10 +13,10 @@ CFLAGS = -I$(INCDIR) -Wall -Wextra -O2
 all: $(BIN)
 
 $(BIN): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) -r $(BINDIR)/* $(OBJDIR)/*
+	@$(RM) -r $(BINDIR)/* $(OBJDIR)/*
