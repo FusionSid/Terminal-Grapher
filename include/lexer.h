@@ -28,6 +28,8 @@ typedef struct {
     };
 } lexer_token_t;
 
+void lexer_tokenise(char* buffer);
+
 static inline const char* token_to_string(lexer_token_e token) {
     switch (token) {
 #define X(name) \

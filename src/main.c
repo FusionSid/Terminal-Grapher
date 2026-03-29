@@ -7,9 +7,12 @@
 #include "ast.h"
 #include "codes.h"
 #include "input.h"
+#include "lexer.h"
 #include "render.h"
 #include "screen.h"
 #include "term.h"
+
+#define EXPRESSION_BUFFER_SIZE 2048
 
 int main() {
     // ast bellow is: y= 10 * sin(x - 2) * cos(2 * x)
@@ -18,7 +21,8 @@ int main() {
     //     .op = AST_OPERATOR_MULTIPLY,
     //     .left = &(ast_node_t){.type = AST_NODE_OPERATOR,
     //                           .op = AST_OPERATOR_MULTIPLY,
-    //                           .left = &(ast_node_t){.type = AST_NODE_CONSTANT,
+    //                           .left = &(ast_node_t){.type =
+    //                           AST_NODE_CONSTANT,
     //                                                 .constant = 10.0},
     //                           .right =
     //                               &(ast_node_t){
@@ -30,7 +34,8 @@ int main() {
     //                                                         AST_OPERATOR_SUBTRACT,
     //                                                         .left =
     //                                                         &(ast_node_t){.type
-    //                                                         = AST_NODE_VARIABLE},
+    //                                                         =
+    //                                                         AST_NODE_VARIABLE},
     //                                                         .right =
     //                                                         &(ast_node_t){.type
     //                                                         =
@@ -73,16 +78,28 @@ int main() {
             &(ast_node_t){
                 .type = AST_NODE_OPERATOR,
                 .op = AST_OPERATOR_POWER,
-                .left = &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "e"},
-                .right = &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "x"},
+                .left =
+                    &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "e"},
+                .right =
+                    &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "x"},
             },
         .right =
             &(ast_node_t){
                 .type = AST_NODE_FUNCTION,
-                .func=AST_FUNCTION_SIN,
-                .left = &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "x"},
+                .func = AST_FUNCTION_SIN,
+                .left =
+                    &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "x"},
             },
     };
+
+    char expression_buffer[EXPRESSION_BUFFER_SIZE];
+
+    printf("Enter expression to plot: ");
+    fgets(expression_buffer, sizeof(expression_buffer), stdin);
+
+    lexer_tokenise(expression_buffer);
+
+    sleep(3);
 
     init();
     enable_raw_mode();
