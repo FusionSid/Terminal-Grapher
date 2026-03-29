@@ -64,14 +64,14 @@ int main(int argc, char* argv[]) {
     // y= x^5
     // ast_node_t ast =
     // {.type = AST_NODE_OPERATOR,
-    //  .op = AST_OPERATOR_POWER,
+    //  .op = AST_OPERATOR_EXP,
     //  .left = &(ast_node_t){.type = AST_NODE_VARIABLE},
     //  .right = &(ast_node_t){.type = AST_NODE_CONSTANT, .constant = 5} };
 
     // y = e^x
     // ast_node_t ast = {
     //     .type = AST_NODE_OPERATOR,
-    //     .op = AST_OPERATOR_POWER,
+    //     .op = AST_OPERATOR_EXP,
     //     .left = &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "e"},
     //     .right = &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "x"},
     // };
@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
     //     .left =
     //         &(ast_node_t){
     //             .type = AST_NODE_OPERATOR,
-    //             .op = AST_OPERATOR_POWER,
+    //             .op = AST_OPERATOR_EXP,
     //             .left =
     //                 &(ast_node_t){.type = AST_NODE_VARIABLE, .varname = "e"},
     //             .right =

@@ -36,7 +36,7 @@ double ast_evaluate(ast_node_t* node, double x_value) {
                 case AST_OPERATOR_DIVIDE:
                     return ast_evaluate(node->left, x_value) /
                            ast_evaluate(node->right, x_value);
-                case AST_OPERATOR_POWER:
+                case AST_OPERATOR_EXP:
                     return pow(ast_evaluate(node->left, x_value),
                                ast_evaluate(node->right, x_value));
                 default:
