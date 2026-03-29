@@ -31,6 +31,7 @@ typedef struct ast_node_t ast_node_t;
 struct ast_node_t {
     ast_node_e type;
     union {
+        char* varname;
         double constant;
         ast_operator_e op;
         ast_function_e func;

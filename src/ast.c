@@ -1,8 +1,8 @@
 #include "ast.h"
 
+#include <math.h>
 #include <stdlib.h>
-
-#include "math.h"
+#include <string.h>
 
 double ast_evaluate(ast_node_t* node, double x_value) {
     if (node == NULL) {
@@ -11,6 +11,18 @@ double ast_evaluate(ast_node_t* node, double x_value) {
 
     switch (node->type) {
         case NODE_VARIABLE:
+            if (node->varname == NULL) {
+                // probably ill do some sort of error later here
+                return x_value;
+            }
+
+            if (strcmp(node->varname, "pi") == 0) {
+                return M_PI;
+            }
+            if (strcmp(node->varname, "e") == 0) {
+                return M_E;
+            }
+
             return x_value;
 
         case NODE_CONSTANT:
