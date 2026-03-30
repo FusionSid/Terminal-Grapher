@@ -28,7 +28,13 @@ typedef struct {
     };
 } lexer_token_t;
 
-void lexer_tokenise(char* buffer);
+typedef struct {
+    lexer_token_t* items;
+    int count;
+    int capacity;
+} tokens_list_t;
+
+void lexer_tokenise(tokens_list_t* tokens_list, char* buffer);
 
 static inline const char* token_to_string(lexer_token_e token) {
     switch (token) {

@@ -102,7 +102,14 @@ int main(int argc, char* argv[]) {
     printf("Enter expression: ");
     fgets(expression_buffer, sizeof(expression_buffer), stdin);
 
-    lexer_tokenise(expression_buffer);
+    tokens_list_t tokens = {0};
+    lexer_tokenise(&tokens, expression_buffer);
+
+    printf("Size: %i, Capacity: %i\n", tokens.count, tokens.capacity);
+    printf("Tokens:\n");
+    for (int i = 0; i < tokens.count; i++) {
+        //printf("%s\n", token_to_string(tokens.items[i].type));
+    }
 
     if (plot_mode) {
         graph_mode(&ast);

@@ -5,7 +5,26 @@
 #include <stdlib.h>
 #include <string.h>
 
-void lexer_tokenise(char* buffer) {
+#define DEFAULT_ARRAY_SIZE 16
+
+void token_add(tokens_list_t* list, lexer_token_t token) {
+    if (list->count == 0) {
+        list->capacity = DEFAULT_ARRAY_SIZE;
+        list->items =
+            (lexer_token_t*)malloc(list->capacity * sizeof(lexer_token_t));
+        printf("R: %i\n", list->items == NULL);
+    }
+
+    if (list->count == list->capacity) {
+        list->capacity = list->capacity * 2;
+        list->items = (lexer_token_t*)realloc(list->items, sizeof(lexer_token_t) * list->capacity);
+       printf("R: %i\n", list->items == NULL);
+    }
+
+    list->items[list->count++] = token;
+}
+
+void lexer_tokenise(tokens_list_t* tokens_list, char* buffer) {
     int length = strlen(buffer);
 
     int i = 0;
@@ -27,8 +46,7 @@ void lexer_tokenise(char* buffer) {
                 token.value = value;
                 token.type = LEXER_TOKEN_NUMBER;
 
-                printf("%s, Number: %f\n",
-                       token_to_string(LEXER_TOKEN_NUMBER), value);
+                token_add(tokens_list, token);
 
                 i = end - buffer;
                 continue;
@@ -45,8 +63,7 @@ void lexer_tokenise(char* buffer) {
             strcpy(token.identifier, identifier_buffer);
             token.type = LEXER_TOKEN_IDENTIFIER;
 
-            printf("%s, Identifier: %s\n",
-                   token_to_string(LEXER_TOKEN_IDENTIFIER), identifier_buffer);
+            token_add(tokens_list, token);
             continue;
         } else if (c == '+') {
             token.type = LEXER_TOKEN_ADD;
@@ -69,11 +86,11 @@ void lexer_tokenise(char* buffer) {
             continue;
         }
 
-        printf("%s\n", token_to_string(token.type));
+        token_add(tokens_list, token);
         i++;
     }
 
     lexer_token_t end_token = {0};
     end_token.type = LEXER_TOKEN_END;
-    printf("%s\n", token_to_string(end_token.type));
+    token_add(tokens_list, end_token);
 }
